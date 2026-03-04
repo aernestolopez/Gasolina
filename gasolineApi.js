@@ -64,23 +64,28 @@ function renderizar(lista) {
   contenedor.innerHTML =
     lista.length === 0 ? "<p>No hay estaciones Repsol disponibles.</p>" : "";
 
-  date = new Date();
   lista.forEach((g, indice) => {
     const div = document.createElement("div");
     div.className = "card";
 
     const etiquetaBarata =
       indice === 0
-        ? '<span style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem;">¡EL MEJOR PRECIO!</span><br>'
+        ? '<span class="best-price-badge">OFERTA MÁS BARATA</span>'
         : "";
 
     div.innerHTML = `
-     ${etiquetaBarata}
+      ${etiquetaBarata}
       <strong>${g.nombreEstacion}</strong>
       <small>${g.direccion}</small>
       <div class="precio-row">
-        <span class="gasolina">Gasolina 95: ${g.Gasolina95}€</span>
-        <span class="diesel">Diesel: ${g.Diesel}€</span>
+        <div class="gasolina">
+          <span>Gasolina 95</span>
+          <b>${g.Gasolina95}€</b>
+        </div>
+        <div class="diesel">
+          <span>Diesel</span>
+          <b>${g.Diesel}€</b>
+        </div>
       </div>`;
     contenedor.appendChild(div);
   });
