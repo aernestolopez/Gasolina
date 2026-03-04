@@ -114,10 +114,7 @@ select:focus {
   #contenedor {
     max-width: 850px;
     display: grid;
-    grid-template-columns: repeat(
-      2,
-      1fr
-    ); /* Las tarjetas de precios en 2 columnas en PC */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 }
