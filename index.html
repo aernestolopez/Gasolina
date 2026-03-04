@@ -8,7 +8,13 @@
     <script src="gasolineApi.js" defer></script>
   </head>
   <body>
-    <h1>Precio Repsol Palma del Rio</h1>
+    <label for="selectMunicipio">Selecciona Municipio:</label>
+    <select id="selectMunicipio">
+      <option value="2091">Palma del Río</option>
+      <option value="2063">Córdoba</option>
+      <option value="6148">Sevilla</option>
+      <!-- Puedes añadir más municipios buscando su código en precioil.es -->
+    </select>
     <button id="botonCargar">Actualizar Precios</button>
     <div id="contenedor"></div>
   </body>

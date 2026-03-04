@@ -1,8 +1,10 @@
-const CACHE_KEY = "repsol_cache_2091";
-const CACHE_TIME = 10 * 60 * 1000;
-
 async function loadPrices(forceUpdate = false) {
   const contenedor = document.getElementById("contenedor");
+
+  const municipioId = document.getElementById("selectMunicipio").value;
+
+  const CACHE_KEY = `repsol_cache_${municipioId}`;
+  const CACHE_TIME = 10 * 60 * 1000;
 
   // Lógica de Caché
   const cacheData = localStorage.getItem(CACHE_KEY);
@@ -20,7 +22,7 @@ async function loadPrices(forceUpdate = false) {
   contenedor.innerHTML = "<p>Actualizando precios...</p>";
   try {
     const respuesta = await fetch(
-      "https://api.precioil.es/estaciones/municipio/2091",
+      `https://api.precioil.es/estaciones/municipio/${municipioId}`,
     );
     if (!respuesta.ok) throw new Error("Error de conexión");
 
@@ -89,3 +91,6 @@ document
   .getElementById("botonCargar")
   .addEventListener("click", () => loadPrices(true));
 window.addEventListener("DOMContentLoaded", () => loadPrices());
+document
+  .getElementById("selectMunicipio")
+  .addEventListener("change", () => loadPrices());
