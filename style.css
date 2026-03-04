@@ -19,14 +19,23 @@ body {
 }
 
 /* Contenedor del Selector */
+.main-title {
+  color: #1a2b4b;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-family: sans-serif;
+}
+
 .selector-container {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 450px;
-  background: var(--card-bg);
-  padding: 24px;
-  border-radius: var(--radius);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  margin-bottom: 24px;
 }
 
 label {
@@ -85,6 +94,7 @@ select:focus {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top: 10px;
 }
 
 .card {

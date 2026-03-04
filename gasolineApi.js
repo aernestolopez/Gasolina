@@ -8,9 +8,19 @@ async function loadPrices(forceUpdate = false) {
 
   // Lógica de Caché
   const cacheData = localStorage.getItem(CACHE_KEY);
-  if (cacheData && !forceUpdate) {
+  const now = Date.now();
+
+  if (cacheData) {
     const parsedCache = JSON.parse(cacheData);
-    if (Date.now() - parsedCache.timestamp < CACHE_TIME) {
+    const timeElapsed = now - parsedCache.timestamp;
+    if (forceUpdate && timeElapsed < CACHE_TIME) {
+      const minutesLeft = Math.ceil((CACHE_TIME - timeElapsed) / 60000);
+      alert(
+        `Los precios están actualizados. Intenta de nuevo en ${minutesLeft} min.`,
+      );
+      return;
+    }
+    if (!forceUpdate && timeElapsed < CACHE_TIME) {
       console.log("Cargando desde Cache");
       renderizar(parsedCache.data);
       return;
