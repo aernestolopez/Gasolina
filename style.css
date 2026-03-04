@@ -114,3 +114,23 @@ label {
 #selectMunicipio:hover {
   border-color: #bbb;
 }
+
+.footer-legal {
+  margin-top: 50px;
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #777;
+  max-width: 600px;
+  line-height: 1.4;
+}
+
+.footer-legal a {
+  color: #ff6700;
+  text-decoration: none;
+}
+
+.footer-legal a:hover {
+  text-decoration: underline;
+}
