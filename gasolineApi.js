@@ -75,6 +75,7 @@ function renderizar(lista) {
     lista.length === 0 ? "<p>No hay estaciones Repsol disponibles.</p>" : "";
 
   lista.forEach((g, indice) => {
+    const lastIndex = lista.length - 1;
     const div = document.createElement("div");
     div.className = "card";
 
@@ -83,8 +84,14 @@ function renderizar(lista) {
         ? '<span class="best-price-badge">OFERTA MÁS BARATA</span>'
         : "";
 
+    const etiquetaCara =
+      indice === lastIndex && lista[0].Gasolina95 != lista[lastIndex].Gasolina95
+        ? '<span class="worst-price-badge">OFERTA MÁS CARA</span>'
+        : "";
+
     div.innerHTML = `
       ${etiquetaBarata}
+      ${etiquetaCara}
       <strong>${g.nombreEstacion}</strong>
       <small>${g.direccion}</small>
       <div class="precio-row">

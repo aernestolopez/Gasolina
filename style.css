@@ -62,7 +62,7 @@ select {
 select:focus {
   outline: none;
   border-color: var(--primary);
-  ring: 2px solid #ff670033;
+  box-shadow: 0 0 0 2px #ff670033;
 }
 
 /* Botón Estilizado */
@@ -135,6 +135,18 @@ select:focus {
   display: inline-block;
   margin-bottom: 8px;
   border: 1px solid #bbf7d0;
+}
+
+.worst-price-badge {
+  background: #fcc7be;
+  color: #d80e07;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: inline-block;
+  margin-bottom: 8px;
+  border: 1px solid #fc5e59;
 }
 
 /* Fila de Precios */
