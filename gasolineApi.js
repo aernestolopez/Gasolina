@@ -2,7 +2,7 @@ async function loadPrices(forceUpdate = false) {
   const contenedor = document.getElementById("contenedor");
 
   const municipioId = document.getElementById("selectMunicipio").value;
-
+  const tipoGasolina = document.getElementById("selectTipoGasolina").value;
   const CACHE_KEY = `repsol_cache_${municipioId}`;
   const CACHE_TIME = 10 * 60 * 1000;
 
@@ -22,6 +22,11 @@ async function loadPrices(forceUpdate = false) {
     }
     if (!forceUpdate && timeElapsed < CACHE_TIME) {
       console.log("Cargando desde Cache");
+      parsedCache.data.sort((a, b) => {
+        const precioA = parseFloat(a[tipoGasolina]);
+        const precioB = parseFloat(b[tipoGasolina]);
+        return precioA - precioB;
+      });
       renderizar(parsedCache.data);
       return;
     }
@@ -50,8 +55,9 @@ async function loadPrices(forceUpdate = false) {
 
     //Ordenar por precios
     repsol.sort((a, b) => {
-      const precioA = parseFloat(a.Gasolina95);
-      const precioB = parseFloat(b.Gasolina95);
+      //console.log(a["Diesel"]);
+      const precioA = parseFloat(a[tipoGasolina]);
+      const precioB = parseFloat(b[tipoGasolina]);
       return precioA - precioB;
     });
 
@@ -90,20 +96,22 @@ function renderizar(lista) {
         : "";
 
     div.innerHTML = `
-      ${etiquetaBarata}
-      ${etiquetaCara}
-      <strong>${g.nombreEstacion}</strong>
-      <small>${g.direccion}</small>
-      <div class="precio-row">
-        <div class="gasolina">
-          <span>Gasolina 95</span>
-          <b>${g.Gasolina95}€</b>
-        </div>
-        <div class="diesel">
-          <span>Diesel</span>
-          <b>${g.Diesel}€</b>
-        </div>
-      </div>`;
+  ${etiquetaBarata}
+  ${etiquetaCara}
+  <strong class="estacion-nombre">${g.nombreEstacion}</strong>
+  <br>
+  <small class="estacion-dir">${g.direccion}</small>
+  
+  <div class="precio-row">
+    <div class="col-combustible">
+      <span class="label-gas">Gasolina 95</span>
+      <b class="valor-precio">${g.Gasolina95}€</b>
+    </div>
+    <div class="col-combustible">
+      <span class="label-gas">Diesel</span>
+      <b class="valor-precio">${g.Diesel}€</b>
+    </div>
+  </div>`;
     contenedor.appendChild(div);
   });
 }
@@ -115,4 +123,7 @@ document
 window.addEventListener("DOMContentLoaded", () => loadPrices());
 document
   .getElementById("selectMunicipio")
+  .addEventListener("change", () => loadPrices());
+document
+  .getElementById("selectTipoGasolina")
   .addEventListener("change", () => loadPrices());

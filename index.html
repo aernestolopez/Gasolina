@@ -1,37 +1,67 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Consulta de Precios Repsol</title>
     <link rel="stylesheet" href="style.css" />
     <script src="gasolineApi.js" defer></script>
   </head>
   <body>
     <div class="selector-container">
       <h1 class="main-title">Precios de Gasolina Repsol</h1>
-  <label for="selectMunicipio">Selecciona tu ubicación:</label>
-  <select id="selectMunicipio">
-      <option value="2063">Córdoba</option>
-      <option value="2091">Palma del Río</option>
-      <option value="6148">Sevilla</option>
-      <option value="6131">Peñaflor</option>
-      <option value="6112">Lora del Río</option>
-    </select>
 
-    <label for="selectMarcaGasolinera">Selecciona marca de gasolinera:</label>
-  <select id="selectMarcaGasolinera">
-    <option value="repsol">Repsol</option>
-    <option value="cepsa">Cepsa</option>
-    <option value="todas">Todas las marcas</option>
-  </select>
-    <button id="botonCargar">Actualizar Precios</button>
+      <!-- Contenedor para el Grid responsivo -->
+      <div class="grid-selectors">
+        <div class="field">
+          <label for="selectMunicipio">Selecciona tu ubicación:</label>
+          <select id="selectMunicipio">
+            <option value="2063">Córdoba</option>
+            <option value="2091">Palma del Río</option>
+            <option value="6148">Sevilla</option>
+            <option value="6131">Peñaflor</option>
+            <option value="6112">Lora del Río</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="selectMarcaGasolinera">Marca de gasolinera:</label>
+          <select id="selectMarcaGasolinera">
+            <option value="repsol">Repsol</option>
+            <option value="cepsa">Cepsa</option>
+            <option value="todas">Todas las marcas</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="selectTipoGasolina">Tipo de gasolina:</label>
+          <select id="selectTipoGasolina">
+            <option value="Gasolina95">Gasolina 95</option>
+            <option value="Diesel">Diesel</option>
+          </select>
+        </div>
+      </div>
+      <!-- Fin grid-selectors -->
+
+      <button id="botonCargar">Actualizar Precios</button>
+    </div>
+
+    <!-- Contenedor donde se renderizan las tarjetas -->
     <div id="contenedor"></div>
 
-<footer class="footer-legal">
-  <p>© 2026 - Consulta de Precios Repsol</p>
-  <p><strong>Aviso Legal:</strong> Los datos mostrados son de carácter estrictamente informativo y provienen de fuentes públicas (precioil.es). Este sitio no se hace responsable de posibles diferencias con el precio real en la estación de servicio. Se recomienda verificar el precio en el tótem de la gasolinera antes del repostaje.</p>
-  <p>Fuente de datos: <a href="https://precioil.es" target="_blank">precioil.es</a></p>
-</footer>
+    <footer class="footer-legal">
+      <p>© 2026 - Consulta de Precios Repsol</p>
+      <p>
+        <strong>Aviso Legal:</strong> Los datos mostrados son de carácter
+        estrictamente informativo y provienen de fuentes públicas (precioil.es).
+        Este sitio no se hace responsable de posibles diferencias con el precio
+        real en la estación de servicio. Se recomienda verificar el precio en el
+        tótem de la gasolinera antes del repostaje.
+      </p>
+      <p>
+        Fuente de datos:
+        <a href="https://precioil.es" target="_blank">precioil.es</a>
+      </p>
+    </footer>
   </body>
 </html>

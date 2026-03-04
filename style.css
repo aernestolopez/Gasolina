@@ -14,66 +14,75 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
+  padding: 20px; /* Reducido un poco para móviles */
   line-height: 1.5;
 }
 
-/* Contenedor del Selector */
-.main-title {
-  color: #1a2b4b;
-  font-size: 1.6rem;
-  font-weight: 700;
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 25px;
-  font-family: sans-serif;
-}
-
+/* --- CONTENEDOR PRINCIPAL --- */
 .selector-container {
   background: white;
-  padding: 30px;
-  border-radius: 12px;
+  padding: 25px;
+  border-radius: var(--radius);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 450px;
+  max-width: 450px; /* Por defecto móvil */
+  transition: max-width 0.3s ease;
+}
+
+.main-title {
+  color: #1a2b4b;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* --- GRID DE SELECTORES (La clave) --- */
+/* En el HTML, asegúrate de envolver tus label/select en un div con esta clase */
+.grid-selectors {
+  display: grid;
+  grid-template-columns: 1fr; /* Una columna en móvil */
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 label {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   display: block;
 }
 
 select {
   appearance: none;
   width: 100%;
-  padding: 12px 16px;
+  padding: 12px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   background-color: #fff;
-  margin-bottom: 16px;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 select:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px #ff670033;
+  box-shadow: 0 0 0 3px #ff670022;
 }
 
-/* Botón Estilizado */
+/* --- BOTÓN --- */
 #botonCargar {
   width: 100%;
   background-color: var(--primary);
   color: white;
   border: none;
-  padding: 12px;
+  padding: 14px;
   border-radius: 8px;
-  font-size: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
   transition:
     transform 0.1s,
@@ -87,14 +96,37 @@ select:focus {
   transform: scale(0.98);
 }
 
-/* Grid de Tarjetas */
+/* --- RESPONSIVE PARA ESCRITORIO --- */
+@media (min-width: 768px) {
+  .selector-container {
+    max-width: 850px; /* Se expande en PC */
+  }
+
+  .grid-selectors {
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en línea */
+    gap: 20px;
+  }
+
+  .main-title {
+    font-size: 2rem;
+  }
+
+  #contenedor {
+    max-width: 850px;
+    display: grid;
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); /* Las tarjetas de precios en 2 columnas en PC */
+    gap: 20px;
+  }
+}
+
+/* --- TARJETAS DE RESULTADOS --- */
 #contenedor {
   width: 100%;
   max-width: 450px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .card {
@@ -102,80 +134,70 @@ select:focus {
   padding: 20px;
   border-radius: var(--radius);
   border: 1px solid #e2e8f0;
-  transition: translateY 0.2s;
+  margin-bottom: 15px;
 }
 
 .card:hover {
   border-color: var(--primary);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
 }
 
-.card strong {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-main);
-  display: block;
-}
-
-.card small {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  margin-bottom: 16px;
-  display: block;
-}
-
-/* Badge de Mejor Precio */
-.best-price-badge {
-  background: #f0fdf4;
-  color: #16a34a;
-  padding: 4px 12px;
-  border-radius: 99px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  display: inline-block;
-  margin-bottom: 8px;
-  border: 1px solid #bbf7d0;
-}
-
-.worst-price-badge {
-  background: #fcc7be;
-  color: #d80e07;
-  padding: 4px 12px;
-  border-radius: 99px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  display: inline-block;
-  margin-bottom: 8px;
-  border: 1px solid #fc5e59;
-}
-
-/* Fila de Precios */
 .precio-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
   padding-top: 15px;
-  border-top: 1px dashed #e2e8f0;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 10px;
 }
 
-.gasolina,
-.diesel {
+.col-combustible {
   display: flex;
   flex-direction: column;
-  font-size: 0.9rem;
+  justify-content: flex-start;
 }
 
-.gasolina b,
-.diesel b {
-  font-size: 1.2rem;
-  color: var(--text-main);
+.label-gas {
+  font-size: 0.85rem;
+  color: #8898aa;
+  margin-bottom: 8px;
+  min-height: 32px;
+}
+
+.valor-precio {
+  font-size: 1.3rem;
+  color: #002d72;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* Badges */
+.best-price-badge,
+.worst-price-badge {
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.best-price-badge {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+.worst-price-badge {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
 }
 
 /* Footer */
 .footer-legal {
-  margin-top: 60px;
+  margin-top: 40px;
   font-size: 0.75rem;
   color: var(--text-muted);
   text-align: center;
-  max-width: 500px;
+  max-width: 600px;
 }
