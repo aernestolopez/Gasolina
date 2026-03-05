@@ -112,6 +112,7 @@ function renderizar(lista, tipoGasolina) {
 function filterSorting(list, brand, tipoGasolina) {
   let result = list;
 
+  console.log(result);
   if (brand !== "todas") {
     result = list.filter((g) =>
       g.marca?.toLowerCase().includes(brand.toLowerCase()),
@@ -123,8 +124,8 @@ function filterSorting(list, brand, tipoGasolina) {
       g[tipoGasolina] !== null &&
       g[tipoGasolina] !== "",
   );
-  return result.sort((a, b) =>
-    parseFloat(a[tipoGasolina] - parseFloat(b[tipoGasolina])),
+  return result.sort(
+    (a, b) => parseFloat(a[tipoGasolina]) - parseFloat(b[tipoGasolina]),
   );
 }
 
