@@ -112,7 +112,6 @@ function renderizar(lista, tipoGasolina) {
 function filterSorting(list, brand, tipoGasolina) {
   let result = list;
 
-  console.log(result);
   if (brand !== "todas") {
     result = list.filter((g) =>
       g.marca?.toLowerCase().includes(brand.toLowerCase()),
