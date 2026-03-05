@@ -169,16 +169,24 @@ select:focus {
 }
 
 /* Badges */
+/* Modifica o añade esto a tu CSS */
 .best-price-badge,
 .worst-price-badge {
   padding: 4px 10px;
   border-radius: 99px;
   font-size: 0.65rem;
   font-weight: 800;
-  display: inline-block;
-  margin-bottom: 10px;
+  display: table; /* Cambiado de inline-block para que fuerce su propio espacio */
+  margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
+.estacion-nombre {
+  display: block; /* Asegura que el nombre empiece debajo del badge */
+  margin-top: 5px;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
 .best-price-badge {
   background: #f0fdf4;
   color: #16a34a;

@@ -31,7 +31,7 @@ async function loadPrices(forceUpdate = false) {
         marcaSeleccionada,
         tipoGasolina,
       );
-      renderizar(result);
+      renderizar(result, tipoGasolina);
       return;
     }
   }
@@ -56,13 +56,13 @@ async function loadPrices(forceUpdate = false) {
     );
 
     const final = filterSorting(gasolineras, marcaSeleccionada, tipoGasolina);
-    renderizar(final);
+    renderizar(final, tipoGasolina);
   } catch (error) {
     contenedor.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
   }
 }
 
-function renderizar(lista) {
+function renderizar(lista, tipoGasolina) {
   const contenedor = document.getElementById("contenedor");
   contenedor.innerHTML =
     lista.length === 0
@@ -74,19 +74,23 @@ function renderizar(lista) {
     const div = document.createElement("div");
     div.className = "card";
 
-    const etiquetaBarata =
-      indice === 0
-        ? '<span class="best-price-badge">OFERTA MÁS BARATA</span>'
-        : "";
+    let badgeHTML = "";
 
-    const etiquetaCara =
-      indice === lastIndex && lista[0].Gasolina95 != lista[lastIndex].Gasolina95
-        ? '<span class="worst-price-badge">OFERTA MÁS CARA</span>'
-        : "";
+    if (indice === 0 && lista.length > 1) {
+      badgeHTML = '<span class="best-price-badge">OFERTA MÁS BARATA</span>';
+    } else if (indice === lastIndex && lista.length > 1) {
+      const precioPrimero = parseFloat(
+        lista[0][tipoGasolina].replace(",", "."),
+      );
+      const precioUltimo = parseFloat(g[tipoGasolina].replace(",", "."));
+
+      if (precioUltimo > precioPrimero) {
+        badgeHTML = '<span class="worst-price-badge">OFERTA MÁS CARA</span>';
+      }
+    }
 
     div.innerHTML = `
-  ${etiquetaBarata}
-  ${etiquetaCara}
+  ${badgeHTML}
   <strong class="estacion-nombre">${g.nombreEstacion}</strong>
   <br>
   <small class="estacion-dir">${g.direccion}</small>
