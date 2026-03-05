@@ -3,7 +3,11 @@ async function loadPrices(forceUpdate = false) {
 
   const municipioId = document.getElementById("selectMunicipio").value;
   const tipoGasolina = document.getElementById("selectTipoGasolina").value;
-  const CACHE_KEY = `repsol_cache_${municipioId}`;
+  const marcaSeleccionada = document.getElementById(
+    "selectMarcaGasolinera",
+  ).value;
+
+  const CACHE_KEY = `gasolinera_cache_${municipioId}`;
   const CACHE_TIME = 10 * 60 * 1000;
 
   // Lógica de Caché
@@ -22,12 +26,12 @@ async function loadPrices(forceUpdate = false) {
     }
     if (!forceUpdate && timeElapsed < CACHE_TIME) {
       console.log("Cargando desde Cache");
-      parsedCache.data.sort((a, b) => {
-        const precioA = parseFloat(a[tipoGasolina]);
-        const precioB = parseFloat(b[tipoGasolina]);
-        return precioA - precioB;
-      });
-      renderizar(parsedCache.data);
+      const result = filterSorting(
+        parsedCache.data,
+        marcaSeleccionada,
+        tipoGasolina,
+      );
+      renderizar(result);
       return;
     }
   }
@@ -43,33 +47,16 @@ async function loadPrices(forceUpdate = false) {
 
     const gasolineras = await respuesta.json();
 
-    /**let repsol = gasolineras.filter((g) =>
-      g.marca?.toLowerCase().includes("repsol"),
-    );**/
-
-    // let repsol = gasolineras.filter((g) => g.Gasolina95);
-
-    let repsol = gasolineras
-      .filter((g) => g.Gasolina95)
-      .filter((g) => g.marca?.toLowerCase().includes("repsol"));
-
-    //Ordenar por precios
-    repsol.sort((a, b) => {
-      //console.log(a["Diesel"]);
-      const precioA = parseFloat(a[tipoGasolina]);
-      const precioB = parseFloat(b[tipoGasolina]);
-      return precioA - precioB;
-    });
-
     localStorage.setItem(
       CACHE_KEY,
       JSON.stringify({
         timestamp: Date.now(),
-        data: repsol,
+        data: gasolineras,
       }),
     );
 
-    renderizar(repsol);
+    const final = filterSorting(gasolineras, marcaSeleccionada, tipoGasolina);
+    renderizar(final);
   } catch (error) {
     contenedor.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
   }
@@ -78,7 +65,9 @@ async function loadPrices(forceUpdate = false) {
 function renderizar(lista) {
   const contenedor = document.getElementById("contenedor");
   contenedor.innerHTML =
-    lista.length === 0 ? "<p>No hay estaciones Repsol disponibles.</p>" : "";
+    lista.length === 0
+      ? "<p>No hay estaciones de gasolinera disponibles.</p>"
+      : "";
 
   lista.forEach((g, indice) => {
     const lastIndex = lista.length - 1;
@@ -105,15 +94,35 @@ function renderizar(lista) {
   <div class="precio-row">
     <div class="col-combustible">
       <span class="label-gas">Gasolina 95</span>
-      <b class="valor-precio">${g.Gasolina95}€</b>
+      <b class="valor-precio">${g.Gasolina95 ? g.Gasolina95 : "No disponible"}€</b>
     </div>
     <div class="col-combustible">
       <span class="label-gas">Diesel</span>
-      <b class="valor-precio">${g.Diesel}€</b>
+      <b class="valor-precio">${g.Diesel ? g.Diesel : "No disponible"}€</b>
     </div>
   </div>`;
     contenedor.appendChild(div);
   });
+}
+
+function filterSorting(list, brand, tipoGasolina) {
+  let result = list;
+
+  if (brand !== "todas") {
+    console.log("fallo");
+    result = list.filter((g) =>
+      g.marca?.toLowerCase().includes(brand.toLowerCase()),
+    );
+  }
+  result = result.filter(
+    (g) =>
+      g[tipoGasolina] !== undefined &&
+      g[tipoGasolina] !== null &&
+      g[tipoGasolina] !== "",
+  );
+  return result.sort((a, b) =>
+    parseFloat(a[tipoGasolina] - parseFloat(b[tipoGasolina])),
+  );
 }
 
 // Eventos
@@ -126,4 +135,7 @@ document
   .addEventListener("change", () => loadPrices());
 document
   .getElementById("selectTipoGasolina")
+  .addEventListener("change", () => loadPrices());
+document
+  .getElementById("selectMarcaGasolinera")
   .addEventListener("change", () => loadPrices());
